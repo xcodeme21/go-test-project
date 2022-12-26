@@ -1,0 +1,70 @@
+package main
+
+import (
+	"fmt"
+	"github.com/kachit/gorm-seeder"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+	"time"
+)
+
+func (u *SourceProduct) BeforeCreate(tx *gorm.DB) (err error) {
+	u.CreatedAt = time.Now().UTC()
+	return
+}
+
+// TableName overrides
+func (SourceProduct) TableName() string {
+	return "source_product"
+}
+
+//Create new seeder instance of gorm_seeder.SeederInterface
+type SourceProductSeeder struct {
+	gorm_seeder.SeederAbstract
+}
+
+func NewSourceProductSeeder(cfg gorm_seeder.SeederConfiguration) SourceProductSeeder {
+	return SourceProductSeeder{gorm_seeder.NewSeederAbstract(cfg)}
+}
+
+//Implement Seed method
+func (s *SourceProductSeeder) Seed(db *gorm.DB) error {
+	var products []models.SourceProduct
+	for i := 0; i < s.Configuration.Rows; i++ {
+		indexStr := fmt.Sprint(i)
+		sourceProduct := SourceProduct{
+			ProductName:  "Product " + indexStr,
+			Qty:          0,
+			SellingPrice: 0,
+			PromoPrice:   0,
+		}
+		products = append(products, sourceProduct)
+	}
+	return db.CreateInBatches(products, s.Configuration.Rows).Error
+}
+
+//Implement Clear method
+func (s *SourceProductSeeder) Clear(db *gorm.DB) error {
+	entity := SourceProduct{}
+	return s.SeederAbstract.Delete(db, entity.TableName())
+}
+
+func SourceProductSeeder() {
+	//Init DB connection
+	db, _ := gorm.Open(postgres.New(postgres.Config{
+		DSN: "DSN connection string",
+	}))
+
+	//Build seeders stack
+	SourceProductSeeder := NewSourceProductSeeder(gorm_seeder.SeederConfiguration{Rows: 10})
+	seedersStack := gorm_seeder.NewSeedersStack(db)
+	seedersStack.AddSeeder(&SourceProductSeeder)
+
+	//Apply seed
+	err := seedersStack.Seed()
+	fmt.Println(err)
+
+	//Apply clear
+	// err = seedersStack.Clear()
+	// fmt.Println(err)
+}
