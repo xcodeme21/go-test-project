@@ -7,7 +7,6 @@ import (
 	"os"
 
 	"github.com/xcodeme21/go-test-project/database"
-	"github.com/xcodeme21/go-test-project/seeder"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -67,8 +66,7 @@ func main() {
 	r.Use(database.Inject(dbTwo))
 
 	//Seeder
-	seeder1, _ := seeder.Test()
-	fmt.Println(seeder1)
+
 	port := os.Getenv("PORT")
 	r.NoRoute(lostInSpce)
 	r.Run(":" + port)
