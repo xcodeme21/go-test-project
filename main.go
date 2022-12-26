@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/xcodeme21/go-test-project/api"
+	"github.com/xcodeme21/go-test-project/controllers"
 	"github.com/xcodeme21/go-test-project/database"
 
 	"github.com/gin-contrib/cors"
@@ -49,10 +49,6 @@ func main() {
 		})
 	})
 
-	uc := api.Controller{}
-	r.GET("/list-source-products", uc.ListSourceProduct)
-	r.GET("/list-destination-products", uc.ListDestinationProduct)
-
 	// cors configuration
 	config := cors.DefaultConfig()
 	config.AddAllowHeaders("Authorization")
@@ -73,6 +69,12 @@ func main() {
 	//Seeder
 	database.SourceSeeder()
 	database.DestinationSeeder()
+
+	sourceController := controllers.ProductsController{DB: db}
+	r.GET("/list-source-products", sourceController.ListSourceProduct)
+
+	destinationController := controllers.ProductsController{DB: dbTwo}
+	r.GET("/list-destination-products", destinationController.ListDestinationProduct)
 
 	port := os.Getenv("PORT")
 	r.NoRoute(lostInSpce)
