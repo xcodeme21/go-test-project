@@ -18,7 +18,7 @@ import (
 
 func lostInSpce(c *gin.Context) {
 	c.JSON(http.StatusNotFound, gin.H{
-		"status":        nil,
+		"status":        c.Writer.Status(),
 		"data":          nil,
 		"error_message": "Lost in space",
 	})
