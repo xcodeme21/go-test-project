@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/xcodeme21/go-test-project/pack1"
+	"github.com/xcodeme21/go-test-project/database"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -56,7 +56,14 @@ func main() {
 	r.Use(cors.New(config))
 
 	createDatabase()
-	pack1.SayHello()
+
+	// Initializes databaseSource
+	db, _ := database.Initialize()
+	r.Use(database.Inject(db))
+
+	// Initializes database Destination
+	dbTwo, _ := database.InitializeTwo()
+	r.Use(database.Inject(dbTwo))
 
 	port := os.Getenv("PORT")
 	r.NoRoute(lostInSpce)
