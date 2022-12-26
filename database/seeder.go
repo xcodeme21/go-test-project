@@ -17,7 +17,6 @@ func SourceSeeder() {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println(db)
 
 	var cek models.SourceProduct
 	db.Table("source_products").First(&cek)
@@ -45,7 +44,6 @@ func DestinationSeeder() {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println(db)
 
 	var cek models.DestinationProduct
 	db.Table("destination_products").First(&cek)

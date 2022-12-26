@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/xcodeme21/go-test-project/api"
 	"github.com/xcodeme21/go-test-project/database"
 
 	"github.com/gin-contrib/cors"
@@ -47,6 +48,10 @@ func main() {
 			"message": "Yayyyy I'am Gin Gonic",
 		})
 	})
+
+	uc := api.Controller{}
+	r.GET("/list-source-products", uc.ListSourceProduct)
+	r.GET("/list-destination-products", uc.ListDestinationProduct)
 
 	// cors configuration
 	config := cors.DefaultConfig()

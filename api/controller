@@ -1,0 +1,17 @@
+package api
+
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
+
+type Controller struct{}
+
+func (u *Controller) ListSourceProduct(c *gin.Context) {
+
+}
+
+func (u *Controller) ListDestinationProduct(c *gin.Context) {
+
+}
