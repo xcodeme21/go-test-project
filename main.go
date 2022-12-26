@@ -67,8 +67,8 @@ func main() {
 	r.Use(database.Inject(dbTwo))
 
 	//Seeder
-	seeder.SourceProductSeederRun()
-
+	seeder1, _ := seeder.Test()
+	fmt.Println(seeder1)
 	port := os.Getenv("PORT")
 	r.NoRoute(lostInSpce)
 	r.Run(":" + port)
