@@ -2,6 +2,7 @@ package database
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
 
 	"github.com/xcodeme21/go-test-project/models"
@@ -26,7 +27,8 @@ func SourceSeeder() {
 		// Tambahkan data ke tabel
 		for i := 1; i <= 500; i++ {
 			name := fmt.Sprintf("Product %d", i)
-			db.Create(&models.SourceProduct{ProductName: name, Qty: 0, SellingPrice: 0, PromoPrice: 0, ID: 0})
+			randomNumber := rand.Intn(100) + 1
+			db.Create(&models.SourceProduct{ProductName: name, Qty: randomNumber, SellingPrice: 15000 + i, PromoPrice: 12000 + i, ID: i})
 		}
 
 		// Menampilkan data
@@ -53,7 +55,7 @@ func DestinationSeeder() {
 		// Tambahkan data ke tabel
 		for i := 1; i <= 500; i++ {
 			name := fmt.Sprintf("Product %d", i)
-			db.Create(&models.DestinationProduct{ProductName: name, Qty: 0, SellingPrice: 0, PromoPrice: 0, ID: 0})
+			db.Create(&models.DestinationProduct{ProductName: name, Qty: 0, SellingPrice: 0, PromoPrice: 0, ID: i})
 		}
 
 		// Menampilkan data
