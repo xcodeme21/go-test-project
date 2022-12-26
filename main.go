@@ -66,6 +66,8 @@ func main() {
 	r.Use(database.Inject(dbTwo))
 
 	//Seeder
+	database.SourceSeeder()
+	database.DestinationSeeder()
 
 	port := os.Getenv("PORT")
 	r.NoRoute(lostInSpce)
