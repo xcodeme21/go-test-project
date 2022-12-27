@@ -70,14 +70,18 @@ func main() {
 	database.SourceSeeder()
 	database.DestinationSeeder()
 
-	sourceController := controllers.ProductsController{DB: db}
+	//Connection
+	cn, _ := database.Connect()
+	cnTwo, _ := database.ConnectTwo()
+
+	sourceController := controllers.ProductsController{DB: cn}
 	r.GET("/list-source-products", sourceController.ListSourceProduct)
 
-	destinationController := controllers.ProductsController{DB: dbTwo}
+	destinationController := controllers.ProductsController{DB: cnTwo}
 	r.GET("/list-destination-products", destinationController.ListDestinationProduct)
 
-	controller := controllers.ProductsController{DB: db, DBTwo: dbTwo}
-	r.GET("/update-products", controller.UpdateProduct)
+	controller := controllers.ProductsController{DB: cn, DBTwo: cnTwo}
+	r.GET("/update-destination-products", controller.UpdateDestinationProduct)
 
 	port := os.Getenv("PORT")
 	r.NoRoute(lostInSpce)
