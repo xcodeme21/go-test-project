@@ -76,6 +76,9 @@ func main() {
 	destinationController := controllers.ProductsController{DB: dbTwo}
 	r.GET("/list-destination-products", destinationController.ListDestinationProduct)
 
+	controller := controllers.ProductsController{DB: db, DBTwo: dbTwo}
+	r.GET("/update-products", controller.UpdateProduct)
+
 	port := os.Getenv("PORT")
 	r.NoRoute(lostInSpce)
 	r.Run(":" + port)
